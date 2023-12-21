@@ -34,9 +34,11 @@ public class MovieDao {
 
 
     public Movie insert(Movie movie) {
-        InsertOneResult insertOneResult = collections.insertOne(movie);
-        movie.setId(insertOneResult.getInsertedId().asObjectId().getValue());
-        return movie;
+        return MongoDBConnectionUtils.doInTransactionWithReturn((session) -> {
+            InsertOneResult insertOneResult = collections.insertOne(session, movie);
+            movie.setId(insertOneResult.getInsertedId().asObjectId().getValue());
+            return movie;
+        });
     }
 
     public Optional<Movie> findById(ObjectId objectId) {
@@ -63,7 +65,9 @@ public class MovieDao {
     }
 
     public void modifyTitle(Movie movie, String title) {
-        collections.findOneAndUpdate(eq("_id", movie.getId()), set("title", title));
+        MongoDBConnectionUtils.doInTransaction((session -> {
+            collections.findOneAndUpdate(session, eq("_id", movie.getId()), set("title", title));
+        }));
     }
 
     public void deleteByTitle(String title) {
