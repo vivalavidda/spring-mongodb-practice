@@ -60,9 +60,39 @@ class MovieRepositoryDaoTest {
         movieDao.insert(movie);
 
         String newTitle = "movieB";
+        movie.setTitle(newTitle);
         movieDao.modifyTitle(movie, newTitle);
 
         Movie findMovie = movieDao.findByTitle(newTitle).get();
         assertThat(findMovie.getId()).isEqualTo(movie.getId());
+    }
+
+    @Test
+    void deleteTest() {
+        Movie movie = new Movie("movieA", List.of(new Movie.Director("kim")), List.of(Movie.Genre.A));
+        movieDao.insert(movie);
+
+        List<Movie> before = movieDao.findAll();
+        assertThat(before).hasSize(1);
+
+        movieDao.deleteAll();
+
+        List<Movie> all = movieDao.findAll();
+        assertThat(all).hasSize(0);
+    }
+
+    @Test
+    void deleteByDirectorName() {
+        Movie.Director directorA = new Movie.Director("directorA");
+        Movie.Director directorB = new Movie.Director("directorB");
+        List<Movie.Director> directors = List.of(directorA, directorB);
+
+        Movie movie = new Movie("movieA", directors, List.of(Movie.Genre.A));
+        movieDao.insert(movie);
+
+        movieDao.deleteByDirectorName("directorB");
+
+        List<Movie> all = movieDao.findAll();
+        assertThat(all).hasSize(0);
     }
 }
