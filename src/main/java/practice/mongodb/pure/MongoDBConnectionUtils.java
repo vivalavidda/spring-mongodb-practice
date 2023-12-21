@@ -10,7 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MongoDBConnectionUtils {
 
-    public static final String CONNECTION_STRING = "mongodb://127.0.0.1:27017/?replicaSet=rs0";
+//    public static final String CONNECTION_STRING = "mongodb://127.0.0.1:27017/?replicaSet=rs0";
+    public static final String CONNECTION_STRING = "mongodb://127.0.0.1:27017,127.0.0.1:27018,127.0.0.1:27019/?replicaSet=rs0";
     private static final String DB_NAME = "TEST";
     private static final TransactionOptions options;
 
