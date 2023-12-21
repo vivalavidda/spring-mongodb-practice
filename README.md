@@ -18,3 +18,6 @@ MongoDB 복제본 세트를 로컬에서 실행하기 위한 설정
 로컬 개발의 경우 단일 노드 복제본 세트만으로도 충분
 트랜잭션 및 변경 스트림에 대한 액세스를 제공
 docker-compose-single-node.file
+
+#### Three-node replica set
+docker-compose-three-node.file
