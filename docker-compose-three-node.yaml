@@ -13,10 +13,14 @@ services:
       interval: 5s
       timeout: 30s
       start_period: 0s
+      start_interval: 1s
       retries: 30
     volumes:
       - "mongo1_data:/data/db"
       - "mongo1_config:/data/configdb"
+    depends_on:
+      - mongo2
+      - mongo3
 
   mongo2:
     image: mongo:7.0
